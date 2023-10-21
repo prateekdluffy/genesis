@@ -1,0 +1,47 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+			<div class="row mt-5">
+				<div class="col-md-5 col-sm-6">
+					{% if messages %}
+					<div class="messages">
+					{% for message in messages %}
+						<div class="row justify-content-center">
+							<div class="col-md-5 col-sm-12 border-bottom alert alert-success">
+								{{ message }}
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+					{% endif %}
+					<h4>Hello! {{request.user}}</h4>
+					<h5> Add a Log! <a href="{% url 'nutrisum:nutrisumhistory-crud' %}" class="btn btn-info mr-2">Create Log!</a> </h5>
+					<p><a href="{% url 'nutrisum:nutrisum-food-list' %}" class="btn btn-dark mr-2">Go to food List!</a> <a href="{% url 'nutrisum:nutrisum-exercise-list' %}" class="btn btn-dark mr-2">Go to Exercise List!</a></p>
+				</div>
+			</div>
+
+	{% for item in user_history_list %}
+	<div class="row justify-content-center mt-3">
+		<div class="col-md-5 col-sm-12 border-bottom">
+			<p><strong>Your log on</strong> {{ item.date }}</p>
+			{% if request.user == item.owner %}
+			<a href="{% url 'nutrisum:nutrisum-logdetail-update' item.pk %}" class="btn btn-info">Update Log!</a>
+			<a href="{% url 'nutrisum:nutrisum-logdetail-delete' item.pk %}" class="btn btn-danger">Delete Log!</a>
+			{% endif %}
+			<div class="container">
+				<div class="row justify-content-center mt-3">
+					<div class="col-md-12 col-sm-12 border border-secondary position-relative">
+						<p><strong>Height </strong>{{ item.height }} | <strong>Weight </strong>{{ item.weight }}</p>
+						<p><strong>Calories Taken in: </strong>{{ item.calorie_intake_count }} | <strong>Calories Burnt: </strong>{{ item.calorie_burnt_count }}</p>
+						<a href="{% url 'nutrisum:nutrisum-logdetail' item.pk %}" class="stretched-link"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock content %}

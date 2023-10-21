@@ -1,0 +1,45 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<div class="row mt-5">
+			<div class="col-md-5 col-sm-6">
+				{% if messages %}
+					<div class="messages">
+					{% for message in messages %}
+						<div class="row justify-content-center">
+							<div class="col-md-5 col-sm-12 border-bottom alert alert-warning">
+								{{ message }}
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+				{% endif %}
+				<h4>Hello! {{request.user}}</h4>
+				<a href="{% url 'nutrisum:nutrisum-home' %}" class="btn btn-dark mr-2">Back</a>
+				<p><a href="{% url 'nutrisum:nutrisum-food-list' %}" class="btn btn-info mr-2">Go to food List!</a> <a href="{% url 'nutrisum:nutrisum-exercise-list' %}" class="btn btn-danger mr-2">Go to Exercise List!</a></p>
+			</div>
+		</div>
+		<div>
+			<div class="row justify-content-center mt-3">
+				<div class="col-md-5 col-sm-12 border-bottom">
+					<h5> Add a Log! </h5>
+
+				</div>
+			</div>
+			<div class="row justify-content-center mt-3 mb-5">
+				<div class="col-md-5 col-sm-12 border-bottom">
+					<form method="POST">
+						{% csrf_token %}
+						{{ form | crispy }}
+						<div class="d-grid gap-2">
+							<button class="btn btn-success">Add Log!</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+</div>
+
+{% endblock content %}

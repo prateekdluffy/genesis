@@ -1,0 +1,45 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+		<div>
+			<div class="row justify-content-center mt-3">
+				<div class="col-md-5 col-sm-12 border-bottom">
+					<h5> Edit your List! </h5>
+				</div>
+			</div>
+			{% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="row justify-content-center">
+					<div class="col-md-5 col-sm-12 border-bottom alert alert-warning">
+						{{ message }}
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+			{% endif %}
+			<div class="row justify-content-center mt-3 mb-5">
+				<div class="col-md-5 col-sm-12 border-bottom">
+					<form method="POST">
+						{% csrf_token %}
+						{{ form | crispy }}
+						<div class="d-grid gap-2">
+							<button class="btn btn-success">Update!</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<p>Here's your list</p>
+		{% for item in item_list %}
+		<div class="row justify-content-center mt-3">
+			<div class="col-md-5 col-sm-12 border-bottom">
+				<p><strong>{{item.exercise_item}} <a href="{% url 'nutrisum:nutrisum-exerciselist-delete' item.pk %}" class="btn btn-danger">Delete Item!</a> </strong></p>
+			</div>
+		</div>
+		{% endfor %}		
+</div>
+
+{% endblock content %}

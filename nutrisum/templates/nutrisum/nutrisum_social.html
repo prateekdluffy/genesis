@@ -1,0 +1,38 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+			<div class="row justify-content-center mt-3">
+				<div class="col-md-5 col-sm-12 border-bottom">
+					<h4>Hello! {{request.user}}</h4>
+					{% if user.is_authenticated %}
+					<h5> Add your Log! <a href="{% url 'nutrisum:nutrisumhistory-crud' %}" class="btn btn-info mr-2">Create Log!</a> </h5>
+					{% else %}
+					<div class="d-flex justify-content-center mt-5">
+						<a href="{% url 'account_login' %}" class="btn btn-light mr-2">Login</a>
+						<a href="{% url 'account_signup' %}" class="btn btn-dark">Register</a>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+
+	{% for item in nutrisumhistory_list %}
+	<div class="row justify-content-center mt-3">
+		<div class="col-md-5 col-sm-12 border-bottom">
+			<p><strong>{{item.owner}}</strong> {{ item.date }}</p>
+			<div class="container">
+				<div class="row justify-content-center mt-3">
+					<div class="col-md-12 col-sm-12 border border-secondary position-relative">
+						<p><strong>Height </strong>{{ item.height }} | <strong>Weight </strong>{{ item.weight }}</p>
+						<p><strong>Calories Taken in: </strong>{{ item.calorie_intake_count }} | <strong>Calories Burnt: </strong>{{ item.calorie_burnt_count }}</p>
+						<a href="{% url 'nutrisum:nutrisum-logdetail' item.pk %}" class="stretched-link"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock content %}
